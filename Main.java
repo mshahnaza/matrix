@@ -24,28 +24,14 @@ public class Main {
             }
         }
 
+        field = putOneSquareShip(fieldSize, field, vertical, horizontal);
+
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
                 System.out.print(field[i][j] + " ");
             }
             System.out.println();
         }
-        System.out.println();
-
-        putThreeSquaresShip(fieldSize, field, horizontal, vertical);
-        System.out.println();
-        /*
-         * for (int i = 0; i < 2; i++) {
-         * putTwoSquareShip(fieldSize, vertical, horizontal, field);
-         * System.out.println();
-         * }
-         * System.out.println();
-         * 
-         * for (int i = 0; i <= 4; i++) {
-         * putOneSquareShip(fieldSize, field);
-         * System.out.println();
-         * }
-         */
     }
 
     public static int chooseShipDirection(int vertical, int horizontal) {
@@ -53,7 +39,7 @@ public class Main {
         return (int) (Math.random() * ++vertical) + horizontal;
     }
 
-    public static void putThreeSquaresShip(int fieldSize, int[][] field, int horizontal, int vertical) {
+    public static int[][] putThreeSquareShip(int fieldSize, int[][] field, int horizontal, int vertical) {
         Random random = new Random();
 
         int rowCoordinate = random.nextInt(fieldSize);
@@ -142,167 +128,198 @@ public class Main {
                     }
                 }
             }
-
         }
-        for (int i = 0; i < fieldSize; i++) {
-            for (int j = 0; j < fieldSize; j++) {
-                System.out.print(field[i][j] + " ");
-            }
-            System.out.println();
-        }
+        int[][] threeSquareShip = new int[fieldSize][fieldSize];
+        threeSquareShip = field;
+        return threeSquareShip;
     }
-    /*
-     * public static void putTwoSquareShip(int fieldSize, int vertical, int
-     * horizontal, int[][] field) {
-     * Random random = new Random();
-     * 
-     * int rowCoordinate = random.nextInt(fieldSize);
-     * int columnCoordinate = random.nextInt(fieldSize);
-     * while (field[rowCoordinate][columnCoordinate] == 0) {
-     * rowCoordinate = random.nextInt(fieldSize);
-     * columnCoordinate = random.nextInt(fieldSize);
-     * }
-     * int shipDirection = chooseShipDirection(vertical, horizontal);
-     * 
-     * ArrayList<Integer> shipCoordinates = new ArrayList<Integer>();
-     * 
-     * int possibleCoordinates = 0;
-     * 
-     * field[rowCoordinate][columnCoordinate] = 1;
-     * if (shipDirection == horizontal) {
-     * for (int i = -1; i <= 1; i++) {
-     * int horizontalShipPossibleCoordinates = columnCoordinate + i;
-     * 
-     * if (horizontalShipPossibleCoordinates >= 0 &&
-     * horizontalShipPossibleCoordinates < 7) {
-     * if (field[rowCoordinate][horizontalShipPossibleCoordinates] != 1) {
-     * shipCoordinates.add(horizontalShipPossibleCoordinates);
-     * }
-     * }
-     * }
-     * for (int i = 0; i < shipCoordinates.size(); i++) {
-     * possibleCoordinates++;
-     * }
-     * int secondSquare = shipCoordinates.get(random.nextInt(possibleCoordinates));
-     * 
-     * field[rowCoordinate][secondSquare] = 1;
-     * 
-     * for (int i = -1; i <= 1; i++) {
-     * for (int j = -1; j <= 1; j++) {
-     * int shipRowSurrounding = rowCoordinate + i;
-     * int shipColumnSurrounding = columnCoordinate + j;
-     * 
-     * if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 &&
-     * shipColumnSurrounding >= 0
-     * && shipColumnSurrounding < 7) {
-     * if (field[shipRowSurrounding][shipColumnSurrounding] != 1) {
-     * field[shipRowSurrounding][shipColumnSurrounding] = 0;
-     * }
-     * }
-     * }
-     * }
-     * for (int i = -1; i <= 1; i++) {
-     * for (int j = -1; j <= 1; j++) {
-     * int shipRowSurrounding = rowCoordinate + i;
-     * int shipColumnSurrounding = secondSquare + j;
-     * 
-     * if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 &&
-     * shipColumnSurrounding >= 0
-     * && shipColumnSurrounding < 7) {
-     * if (field[shipRowSurrounding][shipColumnSurrounding] != 1) {
-     * field[shipRowSurrounding][shipColumnSurrounding] = 0;
-     * }
-     * }
-     * }
-     * }
-     * 
-     * } else {
-     * for (int i = -1; i <= 1; i++) {
-     * int verticalShipPossibleCoordinates = rowCoordinate + i;
-     * 
-     * if (verticalShipPossibleCoordinates >= 0 && verticalShipPossibleCoordinates <
-     * 7) {
-     * if (field[verticalShipPossibleCoordinates][columnCoordinate] != 1) {
-     * shipCoordinates.add(verticalShipPossibleCoordinates);
-     * }
-     * }
-     * }
-     * for (int i = 0; i < shipCoordinates.size(); i++) {
-     * possibleCoordinates++;
-     * }
-     * int secondSquare = shipCoordinates.get(random.nextInt(possibleCoordinates));
-     * 
-     * field[secondSquare][columnCoordinate] = 1;
-     * 
-     * for (int i = -1; i <= 1; i++) {
-     * for (int j = -1; j <= 1; j++) {
-     * int shipRowSurrounding = rowCoordinate + i;
-     * int shipColumnSurrounding = columnCoordinate + j;
-     * 
-     * if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 &&
-     * shipColumnSurrounding >= 0
-     * && shipColumnSurrounding < 7) {
-     * if (field[shipRowSurrounding][shipColumnSurrounding] != 1) {
-     * field[shipRowSurrounding][shipColumnSurrounding] = 0;
-     * }
-     * }
-     * }
-     * }
-     * for (int i = -1; i <= 1; i++) {
-     * for (int j = -1; j <= 1; j++) {
-     * int shipRowSurrounding = secondSquare + i;
-     * int shipColumnSurrounding = columnCoordinate + j;
-     * 
-     * if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 &&
-     * shipColumnSurrounding >= 0
-     * && shipColumnSurrounding < 7) {
-     * if (field[shipRowSurrounding][shipColumnSurrounding] != 1) {
-     * field[shipRowSurrounding][shipColumnSurrounding] = 0;
-     * }
-     * }
-     * }
-     * }
-     * 
-     * }
-     * for (int i = 0; i < fieldSize; i++) {
-     * for (int j = 0; j < fieldSize; j++) {
-     * System.out.print(field[i][j] + " ");
-     * }
-     * System.out.println();
-     * }
-     * }
-     * 
-     * public static void putOneSquareShip(int fieldSize, int[][] field) {
-     * Random random = new Random();
-     * 
-     * int rowCoordinate = random.nextInt(fieldSize);
-     * int columnCoordinate = random.nextInt(fieldSize);
-     * 
-     * field[rowCoordinate][columnCoordinate] = 1;
-     * while (field[rowCoordinate][columnCoordinate] == 0) {
-     * rowCoordinate = random.nextInt(fieldSize);
-     * columnCoordinate = random.nextInt(fieldSize);
-     * }
-     * for (int i = -1; i <= 1; i++) {
-     * for (int j = -1; j <= 1; j++) {
-     * int shipRowSurrounding = rowCoordinate + i;
-     * int shipColumnSurrounding = columnCoordinate + j;
-     * 
-     * if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 &&
-     * shipColumnSurrounding >= 0
-     * && shipColumnSurrounding < 7) {
-     * if (field[shipRowSurrounding][shipColumnSurrounding] != 1) {
-     * field[shipRowSurrounding][shipColumnSurrounding] = 0;
-     * }
-     * }
-     * }
-     * }
-     * for (int i = 0; i < fieldSize; i++) {
-     * for (int j = 0; j < fieldSize; j++) {
-     * System.out.print(field[i][j] + " ");
-     * }
-     * System.out.println();
-     * }
-     * }
-     */
+
+    public static int[][] putTwoSquareShip(int fieldSize, int vertical, int horizontal, int[][] field) {
+        Random random = new Random();
+
+        int[][] twoSquareShip = putThreeSquareShip(fieldSize, field, horizontal, vertical);
+
+        for (int k = 0; k < 2; k++) {
+            int rowCoordinate = random.nextInt(fieldSize);
+            int columnCoordinate = random.nextInt(fieldSize);
+            while (twoSquareShip[rowCoordinate][columnCoordinate] == 0
+                    || twoSquareShip[rowCoordinate][columnCoordinate] == 1) {
+                rowCoordinate = random.nextInt(fieldSize);
+                columnCoordinate = random.nextInt(fieldSize);
+            }
+            twoSquareShip[rowCoordinate][columnCoordinate] = 1;
+
+            int shipDirection = chooseShipDirection(vertical, horizontal);
+
+            ArrayList<Integer> shipCoordinates = new ArrayList<Integer>();
+
+            int possibleCoordinates = 0;
+
+            if (shipDirection == horizontal) {
+                for (int i = -1; i <= 1; i++) {
+                    int horizontalShipPossibleCoordinates = columnCoordinate + i;
+
+                    if (horizontalShipPossibleCoordinates >= 0 && horizontalShipPossibleCoordinates < 7) {
+                        if (twoSquareShip[rowCoordinate][horizontalShipPossibleCoordinates] != 1
+                                && twoSquareShip[rowCoordinate][horizontalShipPossibleCoordinates] != 0) {
+                            shipCoordinates.add(horizontalShipPossibleCoordinates);
+                        }
+                    }
+                }
+                while (shipCoordinates.isEmpty()) {
+                    rowCoordinate = random.nextInt(fieldSize);
+                    columnCoordinate = random.nextInt(fieldSize);
+                    while (twoSquareShip[rowCoordinate][columnCoordinate] == 0
+                            || twoSquareShip[rowCoordinate][columnCoordinate] == 1) {
+                        rowCoordinate = random.nextInt(fieldSize);
+                        columnCoordinate = random.nextInt(fieldSize);
+                    }
+                    twoSquareShip[rowCoordinate][columnCoordinate] = 1;
+                    for (int i = -1; i <= 1; i++) {
+                        int horizontalShipPossibleCoordinates = columnCoordinate + i;
+
+                        if (horizontalShipPossibleCoordinates >= 0 && horizontalShipPossibleCoordinates < 7) {
+                            if (twoSquareShip[rowCoordinate][horizontalShipPossibleCoordinates] != 1
+                                    && twoSquareShip[rowCoordinate][horizontalShipPossibleCoordinates] != 0) {
+                                shipCoordinates.add(horizontalShipPossibleCoordinates);
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < shipCoordinates.size(); i++) {
+                    possibleCoordinates++;
+                }
+                int secondSquare = shipCoordinates.get(random.nextInt(possibleCoordinates));
+
+                twoSquareShip[rowCoordinate][secondSquare] = 1;
+
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        int shipRowSurrounding = rowCoordinate + i;
+                        int shipColumnSurrounding = columnCoordinate + j;
+
+                        if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 && shipColumnSurrounding >= 0
+                                && shipColumnSurrounding < 7) {
+                            if (twoSquareShip[shipRowSurrounding][shipColumnSurrounding] != 1) {
+                                twoSquareShip[shipRowSurrounding][shipColumnSurrounding] = 0;
+                            }
+                        }
+                    }
+                }
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        int shipRowSurrounding = rowCoordinate + i;
+                        int shipColumnSurrounding = secondSquare + j;
+
+                        if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 && shipColumnSurrounding >= 0
+                                && shipColumnSurrounding < 7) {
+                            if (twoSquareShip[shipRowSurrounding][shipColumnSurrounding] != 1) {
+                                twoSquareShip[shipRowSurrounding][shipColumnSurrounding] = 0;
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (int i = -1; i <= 1; i++) {
+                    int verticalShipPossibleCoordinates = rowCoordinate + i;
+
+                    if (verticalShipPossibleCoordinates >= 0 && verticalShipPossibleCoordinates < 7) {
+                        if (twoSquareShip[verticalShipPossibleCoordinates][columnCoordinate] != 1
+                                && twoSquareShip[verticalShipPossibleCoordinates][columnCoordinate] != 0) {
+                            shipCoordinates.add(verticalShipPossibleCoordinates);
+                        }
+                    }
+                }
+                while (shipCoordinates.isEmpty()) {
+                    rowCoordinate = random.nextInt(fieldSize);
+                    columnCoordinate = random.nextInt(fieldSize);
+
+                    while (twoSquareShip[rowCoordinate][columnCoordinate] == 0
+                            || twoSquareShip[rowCoordinate][columnCoordinate] == 1) {
+                        rowCoordinate = random.nextInt(fieldSize);
+                        columnCoordinate = random.nextInt(fieldSize);
+                    }
+                    for (int i = -1; i <= 1; i++) {
+                        int verticalShipPossibleCoordinates = rowCoordinate + i;
+
+                        if (verticalShipPossibleCoordinates >= 0 && verticalShipPossibleCoordinates < 7) {
+                            if (twoSquareShip[verticalShipPossibleCoordinates][columnCoordinate] != 1
+                                    && twoSquareShip[verticalShipPossibleCoordinates][columnCoordinate] != 0) {
+                                shipCoordinates.add(verticalShipPossibleCoordinates);
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < shipCoordinates.size(); i++) {
+                    possibleCoordinates++;
+                }
+                int secondSquare = shipCoordinates.get(random.nextInt(possibleCoordinates));
+
+                twoSquareShip[secondSquare][columnCoordinate] = 1;
+
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        int shipRowSurrounding = rowCoordinate + i;
+                        int shipColumnSurrounding = columnCoordinate + j;
+
+                        if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 && shipColumnSurrounding >= 0
+                                && shipColumnSurrounding < 7) {
+                            if (twoSquareShip[shipRowSurrounding][shipColumnSurrounding] != 1) {
+                                twoSquareShip[shipRowSurrounding][shipColumnSurrounding] = 0;
+                            }
+                        }
+                    }
+                }
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        int shipRowSurrounding = secondSquare + i;
+                        int shipColumnSurrounding = columnCoordinate + j;
+
+                        if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 && shipColumnSurrounding >= 0
+                                && shipColumnSurrounding < 7) {
+                            if (twoSquareShip[shipRowSurrounding][shipColumnSurrounding] != 1) {
+                                twoSquareShip[shipRowSurrounding][shipColumnSurrounding] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < shipCoordinates.size(); i++) {
+                shipCoordinates.remove(i);
+            }
+        }
+        return twoSquareShip;
+    }
+
+    public static int[][] putOneSquareShip(int fieldSize, int[][] field, int vertical, int horizontal) {
+        Random random = new Random();
+
+        int[][] allShips = putTwoSquareShip(fieldSize, vertical, horizontal, field);
+
+        for (int i = 0; i < 4; i++) {
+            int rowCoordinate = random.nextInt(fieldSize);
+            int columnCoordinate = random.nextInt(fieldSize);
+
+            while (allShips[rowCoordinate][columnCoordinate] == 0 || allShips[rowCoordinate][columnCoordinate] == 1) {
+                rowCoordinate = random.nextInt(fieldSize);
+                columnCoordinate = random.nextInt(fieldSize);
+            }
+            allShips[rowCoordinate][columnCoordinate] = 1;
+            for (int k = -1; k <= 1; k++) {
+                for (int j = -1; j <= 1; j++) {
+                    int shipRowSurrounding = rowCoordinate + k;
+                    int shipColumnSurrounding = columnCoordinate + j;
+
+                    if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 && shipColumnSurrounding >= 0
+                            && shipColumnSurrounding < 7) {
+                        if (allShips[shipRowSurrounding][shipColumnSurrounding] != 1) {
+                            allShips[shipRowSurrounding][shipColumnSurrounding] = 0;
+                        }
+                    }
+                }
+            }
+        }
+        return allShips;
+    }
+
 }
