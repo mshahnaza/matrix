@@ -291,4 +291,35 @@ public class Main {
         return twoSquareShip;
     }
 
+    public static int[][] putOneSquareShip(int fieldSize, int[][] field, int vertical, int horizontal) {
+        Random random = new Random();
+
+        int[][] allShips = putTwoSquareShip(fieldSize, vertical, horizontal, field);
+
+        for (int i = 0; i < 4; i++) {
+            int rowCoordinate = random.nextInt(fieldSize);
+            int columnCoordinate = random.nextInt(fieldSize);
+
+            while (allShips[rowCoordinate][columnCoordinate] == 0 || allShips[rowCoordinate][columnCoordinate] == 1) {
+                rowCoordinate = random.nextInt(fieldSize);
+                columnCoordinate = random.nextInt(fieldSize);
+            }
+            allShips[rowCoordinate][columnCoordinate] = 1;
+            for (int k = -1; k <= 1; k++) {
+                for (int j = -1; j <= 1; j++) {
+                    int shipRowSurrounding = rowCoordinate + k;
+                    int shipColumnSurrounding = columnCoordinate + j;
+
+                    if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 && shipColumnSurrounding >= 0
+                            && shipColumnSurrounding < 7) {
+                        if (allShips[shipRowSurrounding][shipColumnSurrounding] != 1) {
+                            allShips[shipRowSurrounding][shipColumnSurrounding] = 0;
+                        }
+                    }
+                }
+            }
+        }
+        return allShips;
+    }
+
 }
