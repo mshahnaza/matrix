@@ -11,8 +11,9 @@ public class Main {
 
         String[][] field = new String[fieldSize][fieldSize];
         String[][] playersField = new String[fieldSize][fieldSize];
-        ArrayList<Integer> playersList = new ArrayList<Integer>();
-
+        ArrayList <Integer> playersList = new ArrayList <Integer>();
+        ArrayList <Integer> scoresList = new ArrayList <Integer>();
+        
         int horizontal = 1;
         int vertical = 2;
 
@@ -25,112 +26,125 @@ public class Main {
                 field[i][j] = "□";
             }
         }
-
+        
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
                 playersField[i][j] = "□";
             }
         }
 
-        field = putOneSquareShip(fieldSize, field, vertical, horizontal);
-
-        for (int i = 0; i < fieldSize; i++) {
-            for (int j = 0; j < fieldSize; j++) {
-                System.out.print(field[i][j] + " ");
-            }
-            System.out.println();
-        }
-
         int shotAmounts = 0;
         int hittedSquares = 0;
+        System.out.println("Do you want to start new game?(yes=1/no=0)");
+        int yes = 1;
+        int no = 0;
+        int playerChoice = scanner.nextInt();
+        System.out.println("\033[H\033[J");
+        
+        while (playerChoice == yes) {
+            field = putOneSquareShip(fieldSize, field, vertical, horizontal);
 
-        while (hittedSquares != 11) {
-            System.out.print("Enter your coordinates: ");
-            int shotRowCoordinate = scanner.nextInt();
-            int shotColumnCoordinate = scanner.nextInt();
-            System.out.println("\033[H\033[J");
-
-            if (field[shotRowCoordinate][shotColumnCoordinate] != "■"
-                    && field[shotRowCoordinate][shotColumnCoordinate] != "▦"
-                    && field[shotRowCoordinate][shotColumnCoordinate] != "▩") {
-                playersField[shotRowCoordinate][shotColumnCoordinate] = "⊡";
-                for (int i = 0; i < fieldSize; i++) {
-                    for (int j = 0; j < fieldSize; j++) {
-                        System.out.print(playersField[i][j] + " ");
-                    }
-                    System.out.println();
+            for (int i = 0; i < fieldSize; i++) {
+                for (int j = 0; j < fieldSize; j++) {
+                    System.out.print(field[i][j] + " ");
                 }
-                System.out.print("You missed!");
-            } else {
-                field[shotRowCoordinate][shotColumnCoordinate] = "*";
-                for (int i = -2; i <= 2; i++) {
-                    for (int j = -2; j <= 2; j++) {
-                        int rowSurrounding = shotRowCoordinate + i;
-                        int columnSurrounding = shotColumnCoordinate + j;
-
-                        if (rowSurrounding >= 0 && rowSurrounding < 7 && columnSurrounding >= 0
-                                && columnSurrounding < 7) {
-                            if (field[rowSurrounding][columnSurrounding] == "■") {
-                                playersField[shotRowCoordinate][shotColumnCoordinate] = "▧";
-                            }
-                        }
-                    }
-                }
-                for (int i = -1; i <= 1; i++) {
-                    for (int j = -1; j <= 1; j++) {
-                        int rowSurrounding = shotRowCoordinate + i;
-                        int columnSurrounding = shotColumnCoordinate + j;
-
-                        if (rowSurrounding >= 0 && rowSurrounding < 7 && columnSurrounding >= 0
-                                && columnSurrounding < 7) {
-                            if (field[rowSurrounding][columnSurrounding] == "▦") {
-                                playersField[shotRowCoordinate][shotColumnCoordinate] = "▧";
-                            }
-                        }
-                    }
-                }
-                if (playersField[shotRowCoordinate][shotColumnCoordinate] == "▧") {
-                    for (int i = 0; i < fieldSize; i++) {
-                        for (int j = 0; j < fieldSize; j++) {
-                            System.out.print(playersField[i][j] + " ");
-                        }
-                        System.out.println();
-                    }
-                    System.out.print("You hitted the ship!");
-                } else {
-                    playersField[shotRowCoordinate][shotColumnCoordinate] = "▨";
-                    for (int i = 0; i < fieldSize; i++) {
-                        for (int j = 0; j < fieldSize; j++) {
-                            System.out.print(playersField[i][j] + " ");
-                        }
-                        System.out.println();
-                    }
-                    System.out.print("The ship sank!");
-                }
-                hittedSquares++;
+                System.out.println();
             }
-
-            shotAmounts++;
+                while(hittedSquares != 11) {
+                System.out.print("Enter your coordinates: ");
+                int shotRowCoordinate = scanner.nextInt();
+                int shotColumnCoordinate = scanner.nextInt();
+                System.out.println("\033[H\033[J");
+    
+                if(field[shotRowCoordinate][shotColumnCoordinate] != "■" && field[shotRowCoordinate][shotColumnCoordinate] != "▦" && field[shotRowCoordinate][shotColumnCoordinate] != "▩") {
+                    playersField[shotRowCoordinate][shotColumnCoordinate] = "⊡";
+                    for (int i = 0; i < fieldSize; i++) {
+                        for (int j = 0; j < fieldSize; j++) {
+                            System.out.print(playersField[i][j] + " ");
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("You missed!");
+                }
+                else {
+                    if(field[shotRowCoordinate][shotColumnCoordinate] == "■") {
+                        field[shotRowCoordinate][shotColumnCoordinate] = "*";
+                        for (int i = -2; i <= 2; i++) {
+                            for (int j = -2; j <= 2; j++) {
+                                int rowSurrounding = shotRowCoordinate + i;
+                                int columnSurrounding = shotColumnCoordinate + j;
+                                    
+                                if (rowSurrounding >= 0 && rowSurrounding < 7 && columnSurrounding >= 0 && columnSurrounding < 7) {
+                                    if (field[rowSurrounding][columnSurrounding] == "■") {
+                                        playersField[shotRowCoordinate][shotColumnCoordinate] = "▧";
+                                        break; 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        field[shotRowCoordinate][shotColumnCoordinate] = "*";
+                        for (int i = -1; i <= 1; i++) {
+                            for (int j = -1; j <= 1; j++) {
+                                int rowSurrounding = shotRowCoordinate + i;
+                                int columnSurrounding = shotColumnCoordinate + j;
+                                
+                                if (rowSurrounding >= 0 && rowSurrounding < 7 && columnSurrounding >= 0 && columnSurrounding < 7) {
+                                    if (field[rowSurrounding][columnSurrounding] == "▦") {
+                                        playersField[shotRowCoordinate][shotColumnCoordinate] = "▧";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(playersField[shotRowCoordinate][shotColumnCoordinate] == "▧") {
+                        for (int i = 0; i < fieldSize; i++) {
+                            for (int j = 0; j < fieldSize; j++) {
+                                System.out.print(playersField[i][j] + " ");
+                            }
+                            System.out.println();
+                        }
+                        System.out.println("You hitted the ship!");
+                    }
+                    else {
+                        playersField[shotRowCoordinate][shotColumnCoordinate] = "▨";
+                        for (int i = 0; i < fieldSize; i++) {
+                            for (int j = 0; j < fieldSize; j++) {
+                                System.out.print(playersField[i][j] + " ");
+                            }
+                            System.out.println();
+                        }
+                        System.out.println("The ship sank!");
+                    }
+                    hittedSquares++;
+                }
+                shotAmounts++;
+        }            
+            System.out.println("You won!");
+            playersList.add(shotAmounts);
+            shotAmounts = 0;
+            hittedSquares = 0;
+            System.out.println("Do you want to start new game?(yes=1/no=0)");
+            playerChoice = scanner.nextInt();
+            System.out.println("\033[H\033[J");
+        
         }
         /*
-         * playersList.add(shotAmounts);
-         * System.out.println("You won!");
-         * System.out.println("Do you want to start again?(y/n)");
-         * 
-         * String yes = "y";
-         * String no = "n";
-         * String playerChoice = scanner.nextLine();
-         * 
-         * if(playerChoice == yes) {
-         * 
-         * }
-         * else {
-         * Arrays.sort(playersList);
-         * for(int k = 0; k < playersList.size(); k++) {
-         * System.out.println(playersList.get(k));
-         * }
-         * }
-         */
+        int minScore = playersList.get(0);
+        while(playersList.size() != 0) {
+            for(int k = 0; k < playersList.size(); k++) {
+                if(playersList.get(k) < minScore) {
+                    minScore = playersList.get(k);
+                }
+            }
+            scoresList.add(minScore);
+            playersList.remove(minScore);
+        }
+        for(int k = 0; k < scoresList.size(); k++) {
+                System.out.println(k);
+        }
+        */
     }
 
     public static int chooseShipDirection(int vertical, int horizontal) {
@@ -242,7 +256,7 @@ public class Main {
             int rowCoordinate = random.nextInt(fieldSize);
             int columnCoordinate = random.nextInt(fieldSize);
             while (twoSquareShip[rowCoordinate][columnCoordinate] == "▢"
-                    || twoSquareShip[rowCoordinate][columnCoordinate] == "■") {
+                    || twoSquareShip[rowCoordinate][columnCoordinate] == "■" || twoSquareShip[rowCoordinate][columnCoordinate] == "▦") {
                 rowCoordinate = random.nextInt(fieldSize);
                 columnCoordinate = random.nextInt(fieldSize);
             }
@@ -269,8 +283,7 @@ public class Main {
                     rowCoordinate = random.nextInt(fieldSize);
                     columnCoordinate = random.nextInt(fieldSize);
                     while (twoSquareShip[rowCoordinate][columnCoordinate] == "▢"
-                            || twoSquareShip[rowCoordinate][columnCoordinate] == "■"
-                            || twoSquareShip[rowCoordinate][columnCoordinate] == "▦") {
+                            || twoSquareShip[rowCoordinate][columnCoordinate] == "■" || twoSquareShip[rowCoordinate][columnCoordinate] == "▦") {
                         rowCoordinate = random.nextInt(fieldSize);
                         columnCoordinate = random.nextInt(fieldSize);
                     }
@@ -335,8 +348,7 @@ public class Main {
                     columnCoordinate = random.nextInt(fieldSize);
 
                     while (twoSquareShip[rowCoordinate][columnCoordinate] == "▢"
-                            || twoSquareShip[rowCoordinate][columnCoordinate] == "■"
-                            || twoSquareShip[rowCoordinate][columnCoordinate] == "▦") {
+                            || twoSquareShip[rowCoordinate][columnCoordinate] == "■" || twoSquareShip[rowCoordinate][columnCoordinate] == "▦") {
                         rowCoordinate = random.nextInt(fieldSize);
                         columnCoordinate = random.nextInt(fieldSize);
                     }
@@ -400,9 +412,8 @@ public class Main {
         for (int i = 0; i < 4; i++) {
             int rowCoordinate = random.nextInt(fieldSize);
             int columnCoordinate = random.nextInt(fieldSize);
-
-            while (allShips[rowCoordinate][columnCoordinate] == "▢" || allShips[rowCoordinate][columnCoordinate] == "■"
-                    || allShips[rowCoordinate][columnCoordinate] == "▦") {
+    
+            while (allShips[rowCoordinate][columnCoordinate] == "▢" || allShips[rowCoordinate][columnCoordinate] == "■" || allShips[rowCoordinate][columnCoordinate] == "▦" || allShips[rowCoordinate][columnCoordinate] == "▩") {
                 rowCoordinate = random.nextInt(fieldSize);
                 columnCoordinate = random.nextInt(fieldSize);
             }
@@ -412,16 +423,17 @@ public class Main {
                     int shipRowSurrounding = rowCoordinate + k;
                     int shipColumnSurrounding = columnCoordinate + j;
 
-                    if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 && shipColumnSurrounding >= 0
-                            && shipColumnSurrounding < 7) {
+                    if (shipRowSurrounding >= 0 && shipRowSurrounding < 7 && shipColumnSurrounding >= 0 && shipColumnSurrounding < 7) {
                         if (allShips[shipRowSurrounding][shipColumnSurrounding] != "▩") {
                             allShips[shipRowSurrounding][shipColumnSurrounding] = "▢";
                         }
-                    }
+                    }   
                 }
             }
         }
         return allShips;
     }
+    
 
 }
+
