@@ -50,77 +50,8 @@ public class Main {
                 }
                 System.out.println();
             }
-                while(hittedSquares != 11) {
-                System.out.print("Enter your coordinates: ");
-                int shotRowCoordinate = scanner.nextInt();
-                int shotColumnCoordinate = scanner.nextInt();
-                System.out.println("\033[H\033[J");
-    
-                if(field[shotRowCoordinate][shotColumnCoordinate] != "■" && field[shotRowCoordinate][shotColumnCoordinate] != "▦" && field[shotRowCoordinate][shotColumnCoordinate] != "▩") {
-                    playersField[shotRowCoordinate][shotColumnCoordinate] = "⊡";
-                    for (int i = 0; i < fieldSize; i++) {
-                        for (int j = 0; j < fieldSize; j++) {
-                            System.out.print(playersField[i][j] + " ");
-                        }
-                        System.out.println();
-                    }
-                    System.out.println("You missed!");
-                }
-                else {
-                    if(field[shotRowCoordinate][shotColumnCoordinate] == "■") {
-                        field[shotRowCoordinate][shotColumnCoordinate] = "*";
-                        for (int i = -2; i <= 2; i++) {
-                            for (int j = -2; j <= 2; j++) {
-                                int rowSurrounding = shotRowCoordinate + i;
-                                int columnSurrounding = shotColumnCoordinate + j;
-                                    
-                                if (rowSurrounding >= 0 && rowSurrounding < 7 && columnSurrounding >= 0 && columnSurrounding < 7) {
-                                    if (field[rowSurrounding][columnSurrounding] == "■") {
-                                        playersField[shotRowCoordinate][shotColumnCoordinate] = "▧";
-                                        break; 
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        field[shotRowCoordinate][shotColumnCoordinate] = "*";
-                        for (int i = -1; i <= 1; i++) {
-                            for (int j = -1; j <= 1; j++) {
-                                int rowSurrounding = shotRowCoordinate + i;
-                                int columnSurrounding = shotColumnCoordinate + j;
-                                
-                                if (rowSurrounding >= 0 && rowSurrounding < 7 && columnSurrounding >= 0 && columnSurrounding < 7) {
-                                    if (field[rowSurrounding][columnSurrounding] == "▦") {
-                                        playersField[shotRowCoordinate][shotColumnCoordinate] = "▧";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if(playersField[shotRowCoordinate][shotColumnCoordinate] == "▧") {
-                        for (int i = 0; i < fieldSize; i++) {
-                            for (int j = 0; j < fieldSize; j++) {
-                                System.out.print(playersField[i][j] + " ");
-                            }
-                            System.out.println();
-                        }
-                        System.out.println("You hitted the ship!");
-                    }
-                    else {
-                        playersField[shotRowCoordinate][shotColumnCoordinate] = "▨";
-                        for (int i = 0; i < fieldSize; i++) {
-                            for (int j = 0; j < fieldSize; j++) {
-                                System.out.print(playersField[i][j] + " ");
-                            }
-                            System.out.println();
-                        }
-                        System.out.println("The ship sank!");
-                    }
-                    hittedSquares++;
-                }
-                shotAmounts++;
-        }            
+            startGame(hittedSquares,field,playersField,shotAmounts,fieldSize);
+            
             System.out.println("You won!");
             playersList.add(shotAmounts);
             shotAmounts = 0;
@@ -434,6 +365,80 @@ public class Main {
         return allShips;
     }
     
+    public static void startGame(int hittedSquares,String[][] field,String[][] playersField,int shotAmounts,int fieldSize) {
+        Scanner scanner = new Scanner(System.in);
+        while(hittedSquares != 11) {
+                System.out.print("Enter your coordinates: ");
+                int shotRowCoordinate = scanner.nextInt();
+                int shotColumnCoordinate = scanner.nextInt();
+                System.out.println("\033[H\033[J");
+    
+                if(field[shotRowCoordinate][shotColumnCoordinate] != "■" && field[shotRowCoordinate][shotColumnCoordinate] != "▦" && field[shotRowCoordinate][shotColumnCoordinate] != "▩") {
+                    playersField[shotRowCoordinate][shotColumnCoordinate] = "⊡";
+                    for (int i = 0; i < fieldSize; i++) {
+                        for (int j = 0; j < fieldSize; j++) {
+                            System.out.print(playersField[i][j] + " ");
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("You missed!");
+                }
+                else {
+                    if(field[shotRowCoordinate][shotColumnCoordinate] == "■") {
+                        field[shotRowCoordinate][shotColumnCoordinate] = "*";
+                        for (int i = -2; i <= 2; i++) {
+                            for (int j = -2; j <= 2; j++) {
+                                int rowSurrounding = shotRowCoordinate + i;
+                                int columnSurrounding = shotColumnCoordinate + j;
+                                    
+                                if (rowSurrounding >= 0 && rowSurrounding < 7 && columnSurrounding >= 0 && columnSurrounding < 7) {
+                                    if (field[rowSurrounding][columnSurrounding] == "■") {
+                                        playersField[shotRowCoordinate][shotColumnCoordinate] = "▧";
+                                        break; 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        field[shotRowCoordinate][shotColumnCoordinate] = "*";
+                        for (int i = -1; i <= 1; i++) {
+                            for (int j = -1; j <= 1; j++) {
+                                int rowSurrounding = shotRowCoordinate + i;
+                                int columnSurrounding = shotColumnCoordinate + j;
+                                
+                                if (rowSurrounding >= 0 && rowSurrounding < 7 && columnSurrounding >= 0 && columnSurrounding < 7) {
+                                    if (field[rowSurrounding][columnSurrounding] == "▦") {
+                                        playersField[shotRowCoordinate][shotColumnCoordinate] = "▧";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if(playersField[shotRowCoordinate][shotColumnCoordinate] == "▧") {
+                        for (int i = 0; i < fieldSize; i++) {
+                            for (int j = 0; j < fieldSize; j++) {
+                                System.out.print(playersField[i][j] + " ");
+                            }
+                            System.out.println();
+                        }
+                        System.out.println("You hitted the ship!");
+                    }
+                    else {
+                        playersField[shotRowCoordinate][shotColumnCoordinate] = "▨";
+                        for (int i = 0; i < fieldSize; i++) {
+                            for (int j = 0; j < fieldSize; j++) {
+                                System.out.print(playersField[i][j] + " ");
+                            }
+                            System.out.println();
+                        }
+                        System.out.println("The ship sank!");
+                    }
+                    hittedSquares++;
+                }
+                shotAmounts++;
+        }
+    }
 
 }
 
